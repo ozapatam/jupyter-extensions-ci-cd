@@ -15,33 +15,44 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v1
       with:
         python-version: '3.x'
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name:  Set Env pkg  and version
       run: |
+        echo ::set-env name=PACKAGE_TAG::${GITHUB_REF#refs/*/}
         echo ::set-env name=PACKAGE_NAME::$(echo  ${GITHUB_REF#refs/*/} | cut -d / -f 1)
         echo ::set-env name=PACKAGE_VERSION::$(echo  ${GITHUB_REF#refs/*/} | cut -d / -f 2)
+        echo ::set-env name=PACKAGE_COMMIT::$(git rev-parse HEAD)
     - name: Print Variables
       run: |
         echo $PACKAGE_NAME
         echo ${{ env.PACKAGE_NAME }}
         echo $PACKAGE_VERSION
         echo ${{ env.PACKAGE_VERSION }}
+        echo $PACKAGE_TAG
+        echo ${{ env.PACKAGE_TAG }}
     - name: Change Setup Version ${{ env.PACKAGE_VERSION }}
       run: |
         cd $PACKAGE_NAME
         sed -i  "s/`grep version setup.py | cut -d'=' -f 2 | sed 's/,//g'`/'$PACKAGE_VERSION'/g" setup.py
-    - name: Commit changes
+    - name: Commit changes master
       uses: EndBug/add-and-commit@v4
       with:
-        author_name: SWAN GitHab Tag
+        author_name: SWAN GitHab 
         author_email: Omar.Zapata@cern.ch
         message: "created tag for package ${{ env.PACKAGE_NAME }} with version ${{ env.PACKAGE_VERSION }}"
         ref: master
+        tag: ${{ env.PACKAGE_TAG }}
+        force: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
     - name: Install dependencies ${{ env.PACKAGE_VERSION }}
       run: |
         cd $PACKAGE_NAME
