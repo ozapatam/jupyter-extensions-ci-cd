@@ -44,6 +44,21 @@ jobs:
         message: "created tag for package ${{ env.PACKAGE_NAME }} with version ${{ env.PACKAGE_VERSION }}"
         ref: master
         tag: ${{ env.PACKAGE_TAG }}
+        force: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Change Setup Version ${{ env.PACKAGE_VERSION }} again
+      run: |
+        cd $PACKAGE_NAME
+        sed -i  "s/`grep version setup.py | cut -d'=' -f 2 | sed 's/,//g'`/'$PACKAGE_VERSION'/g" setup.py
+    - name: Commit changes tag
+      uses: EndBug/add-and-commit@v4
+      with:
+        author_name: SWAN GitHab 
+        author_email: Omar.Zapata@cern.ch
+        message: "created tag for package ${{ env.PACKAGE_NAME }} with version ${{ env.PACKAGE_VERSION }}"
+        tag: ${{ env.PACKAGE_TAG }}
+        force: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Install dependencies ${{ env.PACKAGE_VERSION }}
