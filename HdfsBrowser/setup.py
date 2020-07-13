@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 setup(name='hdfsbrowser',
-      version='0.0.7',
+      version='0.0.8',
       description='HDFS Browser Extension for Jupyter Notebook',
       author='Prasanth Kothuri',
       author_email='prasanth_kothuri@hotmail.com',
