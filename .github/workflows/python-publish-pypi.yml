@@ -38,7 +38,8 @@ jobs:
       with:
         author_name: SWAN GitHab Tag
         author_email: Omar.Zapata@cern.ch
-        message: "created tag for package $PACKAGE_NAME with version $PACKAGE_VERSION"
+        message: "created tag for package ${{ env.PACKAGE_NAME }} with version ${{ env.PACKAGE_VERSION }}"
+        ref: master
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Install dependencies ${{ env.PACKAGE_VERSION }}
