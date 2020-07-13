@@ -39,18 +39,10 @@ jobs:
     - name: Commit changes master
       uses: EndBug/add-and-commit@v4
       with:
-        author_name: SWAN GitHab Tag
+        author_name: SWAN GitHab 
         author_email: Omar.Zapata@cern.ch
         message: "created tag for package ${{ env.PACKAGE_NAME }} with version ${{ env.PACKAGE_VERSION }}"
         ref: master
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Commit changes tag
-      uses: EndBug/add-and-commit@v4
-      with:
-        author_name: SWAN GitHab Tag
-        author_email: Omar.Zapata@cern.ch
-        message: "created tag for package ${{ env.PACKAGE_NAME }} with version ${{ env.PACKAGE_VERSION }}"
         tag: ${{ env.PACKAGE_TAG }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
