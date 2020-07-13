@@ -29,7 +29,18 @@ jobs:
         echo ${{ env.PACKAGE_NAME }}
         echo $PACKAGE_VERSION
         echo ${{ env.PACKAGE_VERSION }}
- 
+    - name: Change Setup Version ${{ env.PACKAGE_VERSION }}
+      run: |
+        echo ::set-env name=CURRENT_VERSION::$(grep version setup.py | cut -d'=' -f 2 | sed 's/,//g' )      
+        sed -i  "s/$CURRENT_VERSION/'$PACKAGE_VERSION'/g" setup.py
+    - name: Commit changes
+      uses: EndBug/add-and-commit@v4
+      with:
+        author_name: SWAN GitHab Tag
+        author_email: Omar.Zapata@cern.ch
+        message: "created tag for package $PACKAGE_NAME with version $PACKAGE_VERSION"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Install dependencies ${{ env.PACKAGE_VERSION }}
       run: |
         cd $PACKAGE_NAME
