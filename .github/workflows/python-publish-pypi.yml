@@ -32,8 +32,7 @@ jobs:
     - name: Change Setup Version ${{ env.PACKAGE_VERSION }}
       run: |
         cd $PACKAGE_NAME
-        echo ::set-env name=CURRENT_VERSION::$(grep version setup.py | cut -d'=' -f 2 | sed 's/,//g' )      
-        sed -i  "s/$CURRENT_VERSION/'$PACKAGE_VERSION'/g" setup.py
+        sed -i  "s/`grep version setup.py | cut -d'=' -f 2 | sed 's/,//g'`/'$PACKAGE_VERSION'/g" setup.py
     - name: Commit changes
       uses: EndBug/add-and-commit@v4
       with:
