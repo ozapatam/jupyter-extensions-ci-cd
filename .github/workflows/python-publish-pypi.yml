@@ -24,6 +24,7 @@ jobs:
         echo ::set-env name=PACKAGE_TAG::${GITHUB_REF#refs/*/}
         echo ::set-env name=PACKAGE_NAME::$(echo  ${GITHUB_REF#refs/*/} | cut -d / -f 1)
         echo ::set-env name=PACKAGE_VERSION::$(echo  ${GITHUB_REF#refs/*/} | cut -d / -f 2)
+        echo ::set-env name=PACKAGE_COMMIT::$(git rev-parse HEAD)
     - name: Print Variables
       run: |
         echo $PACKAGE_NAME
@@ -49,6 +50,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Change Setup Version ${{ env.PACKAGE_VERSION }} again
       run: |
+        git reset --hard $PACKAGE_COMMIT
         cd $PACKAGE_NAME
         sed -i  "s/`grep version setup.py | cut -d'=' -f 2 | sed 's/,//g'`/'$PACKAGE_VERSION'/g" setup.py
     - name: Commit changes tag
