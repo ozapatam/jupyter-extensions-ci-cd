@@ -20,11 +20,11 @@ jobs:
         python-version: '3.x'
     - uses: actions/checkout@v1
     - name:  Set Env pkg  and version
-      run: echo ::set-env name=RELEASE_VERSION::${GITHUB_REF#refs/*/}
+      run: echo ::set-env name=MODULE_NAME::${GITHUB_REF#refs/([A-Z]+)/}
     - name: Test
       run: |
-        echo $RELEASE_VERSION
-        echo ${{ env.RELEASE_VERSION }}     
+        echo $MODULE_NAME
+        echo ${{ env.MODULE_NAME }}     
     - name: Install dependencies HdfsBrowser
       run: |
         cd HdfsBrowser
