@@ -56,7 +56,7 @@ with open("README.md", "r") as fh:
 
 setup_args = dict(
     name=name,
-    version=version,
+    version='0.1.0',
     url="https://github.com/swan-cern/jupyter-extensions",
     author="SWAN Admins",
     description="Jupyter Server extension to browse HDFS filesystem",
