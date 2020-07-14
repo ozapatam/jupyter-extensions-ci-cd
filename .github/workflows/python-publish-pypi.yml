@@ -23,7 +23,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
        node-version: '12.x'
-    - uses: actions/checkout@v2
     - name:  Set Env pkg  and version
       run: |
         echo ::set-env name=PACKAGE_TAG::${GITHUB_REF#refs/*/}
