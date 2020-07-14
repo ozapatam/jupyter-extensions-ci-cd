@@ -49,4 +49,5 @@ jobs:
         cd $PACKAGE_NAME
         python setup.py sdist bdist_wheel
         twine upload --repository testpypi dist/*
+        npm publish -dry-run
         
